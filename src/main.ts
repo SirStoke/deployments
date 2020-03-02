@@ -32,7 +32,7 @@ async function run() {
         const deployment = await client.repos.createDeployment({
           owner: repo.owner,
           repo: repo.repo,
-          ref: ref,
+          ref: commitSHA || ref,
           required_contexts: [],
           environment,
           auto_merge: false,
