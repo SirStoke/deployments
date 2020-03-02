@@ -11,6 +11,7 @@ async function run() {
     const step = core.getInput('step', { required: true });
     const logsURL = core.getInput('logs');
     const description = core.getInput('desc');
+    const commitSHA = core.getInput('commit', { required: false })
 
     const client = new github.GitHub(token, {
       previews: ['ant-man-preview', 'flash-preview'],
@@ -47,7 +48,7 @@ async function run() {
           ...repo,
           deployment_id: deployment.data.id,
           state: 'in_progress',
-          log_url: logsURL || `https://github.com/${repo.owner}/${repo.repo}/commit/${sha}/checks`,
+          log_url: logsURL || `https://github.com/${repo.owner}/${repo.repo}/commit/${commitSHA || sha}/checks`,
           description,
         });
 
@@ -76,7 +77,7 @@ async function run() {
           // only set environment_url if deployment worked
           environment_url: (newStatus === 'success') ? envURL : '',
           // set log_url to action by default
-          log_url: logsURL || `https://github.com/${repo.owner}/${repo.repo}/commit/${sha}/checks`,
+          log_url: logsURL || `https://github.com/${repo.owner}/${repo.repo}/commit/${commitSHA || sha}/checks`,
         });
 
         console.log(`${deploymentID} status set to ${newStatus}`);

@@ -17,3 +17,5 @@ inputs:
     description: URL to logs
   desc:
     description: Description to set in status
+  commit:
+    description: Optional commit SHA. If present it's used as commit instead of github.sha when creating or updating the deployment
